@@ -2,8 +2,22 @@
   "name": "monitor-theme-glassmorphism",
   "type": "module",
   "author": {
-    "name": "Gongsc",
-    "url": "https://github.com/Gongsc"
+    "name": "Blubo127",
+    "url": "https://github.com/Blubo127"
+  },
+  "contributors": [
+    {
+      "name": "Gongsc",
+      "url": "https://github.com/Gongsc"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Blubo127/Theme-Glassmorphism.git"
+  },
+  "homepage": "https://github.com/Blubo127/Theme-Glassmorphism#readme",
+  "bugs": {
+    "url": "https://github.com/Blubo127/Theme-Glassmorphism/issues"
   },
   "license": "MIT",
   "engines": {

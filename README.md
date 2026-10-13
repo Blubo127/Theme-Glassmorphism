@@ -1,10 +1,32 @@
-# Glassmorphism for 极简探针
+# Theme-Glassmorphism · Blubo127
 
 ![Glassmorphism 主题首页预览](preview.png)
 
-本项目将 [sanrokamlan-prog/komari-theme-Glassmorphism](https://github.com/sanrokamlan-prog/komari-theme-Glassmorphism) 主题移植至 [极简探针 Monitor](https://github.com/monitor-probe/monitor)。项目基于原版 v3.3.7 的 Vue 源码、组件、样式与资源，数据改由 Monitor 的 REST 与 WebSocket 接口提供，无需部署 Komari 服务器。
+这是由 [Blubo127](https://github.com/Blubo127) 维护的极简探针玻璃拟态主题仓库，基于 [Gongsc 的 Monitor 移植版本](https://github.com/Gongsc/Theme-Glassmorphism) 继续开发。移植版本源自 [sanrokamlan-prog/komari-theme-Glassmorphism](https://github.com/sanrokamlan-prog/komari-theme-Glassmorphism) v3.3.7，使用 [极简探针 Monitor](https://github.com/monitor-probe/monitor) 的 REST 与 WebSocket 接口提供数据，无需部署 Komari 服务器。
 
-当前版本为 1.4.3。本项目沿用原项目的 MIT 许可，并保留原作者署名。
+当前源码版本为 1.4.3。本仓库沿用 [MIT 许可](LICENSE)，保留 Tony Liu 的原始版权声明和上游来源；主题及 package 元数据中的维护者为 Blubo127。
+
+## 项目地址与来源
+
+| 用途 | 地址 |
+| --- | --- |
+| 当前维护仓库 | [Blubo127/Theme-Glassmorphism](https://github.com/Blubo127/Theme-Glassmorphism) |
+| 安装包与版本发布 | [本仓库 Releases](https://github.com/Blubo127/Theme-Glassmorphism/releases) |
+| 问题反馈（待启用） | [本仓库 Issues](https://github.com/Blubo127/Theme-Glassmorphism/issues) |
+| Monitor 移植来源 | [Gongsc/Theme-Glassmorphism](https://github.com/Gongsc/Theme-Glassmorphism) |
+| 原始 Komari 主题 | [sanrokamlan-prog/komari-theme-Glassmorphism](https://github.com/sanrokamlan-prog/komari-theme-Glassmorphism) |
+| Monitor 后端与探针 | [monitor-probe/monitor](https://github.com/monitor-probe/monitor) |
+
+本说明对应 [`diy` 分支](https://github.com/Blubo127/Theme-Glassmorphism/tree/diy)。截至 2026-10-12，GitHub 默认分支仍为 `main`；获取本分支源码时请明确选择 `diy`，后续安装已发布版本时可选择相应 tag。上游链接用于说明来源，Monitor 链接用于获取后端与探针。
+
+截至 2026-10-12，本仓库尚未启用 Issues；维护者可在仓库 Settings → General → Features 中启用 Issues，之后上述反馈入口与 package 元数据中的 issues 地址才可使用。
+
+## 配置与开发文档
+
+- [theme.json](theme.json) 定义主题元数据、设置字段和默认值；站点实际设置由 Hub 的 `/api/themes/glassmorphism/config` 保存与读取。
+- [public/glass-config.json](public/glass-config.json) 是与默认值一致的配置导入示例，可通过主题设置面板导入并保存；页面不会自动读取这个文件作为站点配置。
+- [Monitor 接口兼容层说明](src/utils/rpc.md) 记录当前主题支持的方法与传输方式。
+- [安全检查报告](check_summary.md) 记录指定提交的审查结果和后续地址对齐说明。
 
 ## 主要功能
 
@@ -17,6 +39,8 @@
 - **节点详情**：包含资源负载图、延迟图、费用与剩余价值计算、节点对比及数据快照导出。
 - **站点图标**：可在设置中指定页面左上角、浏览器标签页和 iOS 主屏幕使用的图标，支持填写 http(s) 图片地址、站内路径，或在主题设置面板中直接上传图片；上传的图片将缩放为 180×180 并保存在站点配置中，无需另行托管。由于页面外壳为静态文件，首次加载时浏览器标签页会短暂显示内置图标。
 - **站点设置**：管理员登录后可在页面中直接调整设置并实时预览，保存至 Hub 后对全部访客生效。设置亦可在后台主题卡片中修改，两处共用同一份配置，并支持导出、导入及恢复默认值。
+
+下列 1.3.0–1.4.3 更新记录继承自 Gongsc 的 Monitor 移植版本，说明当前源码已有的功能，不代表本仓库已发布同名 Release。
 
 ## 1.4.3 更新内容
 
@@ -60,9 +84,22 @@
 
 ## 安装
 
-在极简探针后台依次进入「主题」→「上传主题包」，选择 [Releases](https://github.com/Gongsc/Theme-Glassmorphism/releases) 中的 `theme.tar.gz` 并启用。此后可通过主题卡片上的「从 GitHub 更新」获取新版本。
+安装需要 `theme.tar.gz` 主题包，包含构建后的页面和主题元数据。本仓库的版本下载入口为 [Releases](https://github.com/Blubo127/Theme-Glassmorphism/releases)。
 
-## 与原版的差异
+截至 2026-10-12，本仓库尚未发布 Release 或 tag。推送代码到 `diy` 分支不会自动生成下载附件；当前请先准备下方“开发”所需的环境，再从该分支本地打包：
+
+```sh
+git clone --branch diy https://github.com/Blubo127/Theme-Glassmorphism.git
+cd Theme-Glassmorphism
+npm ci
+npm run package
+```
+
+生成的安装包为 `release/theme.tar.gz`。在极简探针后台依次进入「主题」→「上传主题包」，选择这个文件并启用。打包命令还生成带版本名的包和 `release/theme.tar.gz.sha256` 校验文件；后续本仓库发布 Release 后，也可直接下载其中的 `theme.tar.gz` 安装。
+
+`theme.json` 的项目 URL 指向本仓库，并随打包进入主题包。已经安装的旧包若仍显示上游地址，需要重新上传本仓库构建的包以更新元数据。在 Hub 支持“从 GitHub 更新”、且本仓库已有对应 Release 附件后，可通过主题卡片获取后续版本；仅更换本地 Git remote 或推送分支不会更新已安装包的元数据。
+
+## 与原始 Komari 主题的差异
 
 - **节点地址与位置**：Monitor 仅向已登录用户返回节点 IP。登录后，详情页显示 IPv4 与 IPv6 地址，搜索支持按 IP 匹配，数据导出包含地址信息；访客无法获取上述信息。地球按国家中心坐标定位节点；启用「地球显示城市」后，城市依据节点名称推断，以上位置均不代表机房的实际地理位置。服务商仅依据节点名称与备注识别（访客为公开备注，登录后另含私有备注），主题不会将节点 IP 发送至任何第三方。
 - **已移除的功能**：原版中的 GPU、温度、自定义标签、城市与 ASN 信息、拓扑工具及审计日志依赖 Monitor 未提供的数据，均已移除。
@@ -73,7 +110,7 @@
 
 ## 开发
 
-开发环境需要 Node.js 24 或更高版本及 npm。常用命令如下：
+建议使用 Node.js 24.15.0 或更新的 24.x 版本及 npm。`package.json` 的 `engines` 声明更宽，但当前锁定的开发依赖 `jsdoc-type-pratt-parser@9.2.2` 要求 Node.js `^22.22.2 || >=24.15.0`，旧版本安装会提示 `EBADENGINE`。GitHub Actions 发布工作流使用最新的 Node.js 22；本地使用 22.x 时需至少为 22.22.2。`npm test` 使用 Node 的实验性类型剥离参数。常用命令如下：
 
 ```sh
 npm ci
@@ -88,6 +125,18 @@ npm run package   # 生成 release/theme.tar.gz
 
 `preview.png` 为使用演示数据截取的 1440×900 首页截图，其中访客 IP 为示例地址。重新截图时，请勿记录真实的访客 IP。
 
+当前 `vite.config.ts` 将页脚构建标识固定为 `monitor-port`；它是历史移植标记，不是实际 Git 提交哈希。需要追溯源码时，以发布 tag 或具体提交为准。
+
 ## 发布
 
-发布新版本时，须将 `theme.json`、`package.json`、`package-lock.json` 和 `vite.config.ts` 中的版本号统一修改为新版本号，然后推送格式为 `x.y.z` 的 tag（例如 `1.3.0`）。GitHub Actions 将自动完成构建，并创建附带 `theme.tar.gz` 的 Release。
+发布入口是 [Blubo127/Theme-Glassmorphism 的 Actions](https://github.com/Blubo127/Theme-Glassmorphism/actions)。Fork 仓库首次使用时需确认已在 GitHub 启用 Actions；[发布工作流](.github/workflows/release.yml) 已声明 `contents: write` 权限，使用本仓库的 GitHub token 创建 Release。
+
+发布新版本时，将 `theme.json`、`package.json`、`package-lock.json`（顶层及 `packages[""].version`）和 `vite.config.ts` 中的版本号统一修改为新版本号并提交。然后在要发布的提交上创建格式为 `x.y.z` 的 tag，并推送到本仓库。tag 不带 `v` 前缀，且必须与三个 JSON 文件的版本一致。例如，将版本统一改为 `1.4.4` 并提交后：
+
+```sh
+git tag 1.4.4
+git push origin HEAD
+git push origin 1.4.4
+```
+
+GitHub Actions 会检出该 tag，执行 `npm ci` 和 `npm run package`，并在本仓库创建附带 `theme.tar.gz` 的 Release。工作流发布目标由当前仓库决定；当前自动发布只上传 `theme.tar.gz`，带版本名的本地包及 SHA-256 文件不会自动成为 Release 附件。

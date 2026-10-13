@@ -2,8 +2,8 @@ import { dispatch } from '@/monitor/transport'
 import { NETWORK_CONFIG } from '@/constants/network'
 
 /**
- * Komari RPC2 Client SDK
- * @see https://www.komari.wiki/dev/rpc.html
+ * Monitor 方法兼容层；当前支持范围与传输限制见 ./rpc.md
+ * @see https://www.komari.wiki/dev/rpc.html 原版 Komari 协议参考
  */
 
 // ==================== 类型定义 ====================
@@ -417,7 +417,7 @@ interface RpcClientOptions {
   useWebSocket?: boolean
 }
 
-/** JSON-RPC 2.0 客户端 */
+/** Monitor 方法兼容客户端，保留遗留 RPC2 连接实现。 */
 export class RpcClient {
   private baseUrl: string
   private timeout: number
@@ -802,8 +802,8 @@ export class RpcClient {
 // ==================== KomariRpc 类 ====================
 
 /**
- * Komari RPC 高级封装
- * 提供常用的 Komari API 方法
+ * 主题使用的 Monitor 兼容封装，保留原 Komari 方法名
+ * 当前支持的方法与遗留方法限制见 ./rpc.md
  */
 export class KomariRpc {
   private client: RpcClient

@@ -3,9 +3,9 @@ import { loadConfig } from '@/monitor/config'
 import { NETWORK_CONFIG } from '@/constants/network'
 
 /**
- * Komari API 客户端 SDK
- * 基于 REST API 的 Komari 客户端
- * @see https://www.komari.wiki/dev/api.html
+ * Monitor API 兼容客户端，保留原 Komari 类型与方法名
+ * 当前站点、登录状态与历史数据通过 @/monitor/transport 的 REST 接口适配
+ * @see https://www.komari.wiki/dev/api.html 原版接口参考
  */
 
 const HTTP_PROTOCOL_REGEX = /^http/
@@ -209,7 +209,7 @@ export class ApiError extends Error {
 
 // ==================== API 客户端 ====================
 
-/** Komari API 客户端 */
+/** 识别原 Komari REST API 的响应结构。 */
 function isApiResponse<T>(value: unknown): value is ApiResponse<T> {
   if (!value || typeof value !== 'object')
     return false
@@ -240,6 +240,7 @@ function linkAbortSignal(controller: AbortController, signal?: AbortSignal): () 
   return () => signal.removeEventListener('abort', abort)
 }
 
+/** 原 Komari REST 客户端，已适配的方法使用 Monitor 同源接口。 */
 export class KomariApi {
   private baseUrl: string
   private timeout: number
