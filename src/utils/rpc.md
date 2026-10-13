@@ -19,7 +19,7 @@
 
 ## 受支持的方法
 
-下表列出当前 `dispatch()` 实现的全部方法。可选参数用 `?` 表示；完整 TypeScript 类型以 [`rpc.ts`](./rpc.ts) 为准。
+下表列出当前 `dispatch()` 实现的全部方法。可选参数用 `?` 表示；公开方法签名与兼容类型声明见 [`rpc.ts`](./rpc.ts)，实际返回字段以本文及 [`transport.ts`](../monitor/transport.ts) 为准。
 
 | `KomariRpc` 方法 | 内部分发方法 | 当前返回内容 |
 | --- | --- | --- |
@@ -42,7 +42,11 @@
 
 `load_type` 与 `loadType` 仅保留在签名中，当前不会筛选单个指标。负载历史包含 CPU、内存、磁盘和上下行速率，以及 Hub 支持时提供的采样步长与峰值字段。`getNodeRecentStatus()` 和 `getPublicClientRecentRecords()` 也读取该历史接口，不代表最近一分钟的完整实时状态。
 
-Ping 记录的 `value` 单位为毫秒，Hub 返回空延迟时映射为 `-1`；`monitor_window_loss` 和 `monitor_bucket_loss` 分别表示窗口及采样桶的丢包率。提供非零 `task_id` / `taskId` 时按任务筛选记录，省略时返回全部线路；`tasks` 仍包含返回历史中的任务信息。
+`StatusRecord` 沿用了旧 Komari 类型声明，当前负载历史不会补齐其中的 `swap`、`load`、累计流量、进程数和连接数等字段；即使兼容类型将它们声明为必填，使用前也需要检查是否存在。
+
+Ping 记录的 `value` 单位为毫秒，Hub 返回空延迟时映射为 `-1`；`monitor_window_loss` 和 `monitor_bucket_loss` 分别表示窗口及采样桶的丢包率。`task_id` / `taskId` 应使用正整数任务 ID；省略参数、传入空字符串或数字 `0` 时返回全部线路，字符串 `'0'` 则会按任务 ID 筛选。
+
+历史查询返回的 `tasks` 不随任务筛选参数裁剪；多节点查询会直接拼接各节点的任务信息，可能包含相同的任务 ID。只有 `getPublicPingTasks()` 会按任务 ID 合并关联节点。
 
 ## 调用示例
 
